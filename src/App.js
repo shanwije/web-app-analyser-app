@@ -27,7 +27,7 @@ function App() {
                     : setAnalyticsData(data);
             })
             .catch(err => {
-                setError(err.response.data.data);
+                err.response ? setError(err.response.data.data) : setError(err);
             })
             .finally(() => setLoading(false));
     }
@@ -75,7 +75,7 @@ function App() {
                                     <Card.Header>
                                         <Card.Title>Title : {analyticsData.title}</Card.Title>
                                         <Card.Subtitle>({analyticsData.has_login ? "Login Page" : "Not a Login Page"})</Card.Subtitle>
-                                        <p class="text-muted small">(HTML Version : {analyticsData.html_version})</p>
+                                        <p className="text-muted small">(HTML Version : {analyticsData.html_version})</p>
                                     </Card.Header>
                                     <Card.Body>
                                         <Card>
@@ -135,7 +135,7 @@ function App() {
                                                     </thead>
                                                     <tbody>
                                                     {analyticsData.links.map((l) => (
-                                                        <tr id={l.url}>
+                                                        <tr key={l.url}>
                                                             <td><a target="_blank" rel="noreferrer" href={l.url}>{l.url}</a>
                                                             </td>
                                                             <td>{(l.status < 300 && l.status >= 200) ?
