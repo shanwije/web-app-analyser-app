@@ -1,4 +1,3 @@
-import "./index.css"
 import {Button, Card, Container, Form, FormControl, Nav, Navbar, Spinner, Table} from "react-bootstrap";
 import axios from "axios";
 import {baseUrl, urls} from "./constants";
@@ -31,8 +30,6 @@ function App() {
 
     return (
         <Container fluid={true} style={{padding: 0}}>
-
-
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
                 <Container>
                     <Navbar.Brand href="#home">Web App Analyser</Navbar.Brand>
@@ -164,7 +161,6 @@ function App() {
                 }
             </Container>
         </Container>
-
     );
 }
 
