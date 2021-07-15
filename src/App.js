@@ -56,7 +56,7 @@ function App() {
                     </Navbar.Collapse>
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text>
-                            By <a target="_blank" href="https://au.linkedin.com/in/shanwije/">Shan Wijenayaka</a>
+                            By <a target="_blank" rel="noreferrer" href="https://au.linkedin.com/in/shanwije/">Shan Wijenayaka</a>
                         </Navbar.Text>
                     </Navbar.Collapse>
                 </Container>
@@ -130,7 +130,7 @@ function App() {
                                                     <tbody>
                                                     {analyticsData.links.map((l) => (
                                                         <tr id={l.url}>
-                                                            <td><a target="_blank" href={l.url}>{l.url}</a></td>
+                                                            <td><a target="_blank" rel="noreferrer" href={l.url}>{l.url}</a></td>
                                                             <td>{(l.status < 300 && l.status >= 200) ?
                                                                 <p className="text-info">Working</p> :
                                                                 (<p className="text-danger">Issue loading the
