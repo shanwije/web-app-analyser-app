@@ -20,12 +20,16 @@ function App() {
         }
         axios.get(`${baseUrl}${urls.GET_PAGE_ANALYTICS}`, {params})
             .then(res => {
-                setAnalyticsData(res.data.data)
+                const data = res.data.data;
+
+                data.links.length === 1 && (data.links[0].status < 200 || data.links[0].status >= 300) ?
+                    setError(`Issue loading the webpage with status code : ${data.links[0].status}`)
+                    : setAnalyticsData(data);
             })
             .catch(err => {
-                setError(err.response.data.data);
+                err.response ? setError(err.response.data.data) : setError(err);
             })
-            .finally(() => setLoading(false))
+            .finally(() => setLoading(false));
     }
 
     return (
@@ -56,7 +60,8 @@ function App() {
                     </Navbar.Collapse>
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text>
-                            By <a target="_blank" rel="noreferrer" href="https://au.linkedin.com/in/shanwije/">Shan Wijenayaka</a>
+                            By <a target="_blank" rel="noreferrer" href="https://au.linkedin.com/in/shanwije/">Shan
+                            Wijenayaka</a>
                         </Navbar.Text>
                     </Navbar.Collapse>
                 </Container>
@@ -70,13 +75,14 @@ function App() {
                                     <Card.Header>
                                         <Card.Title>Title : {analyticsData.title}</Card.Title>
                                         <Card.Subtitle>({analyticsData.has_login ? "Login Page" : "Not a Login Page"})</Card.Subtitle>
-                                        <p class="text-muted small">(HTML Version : {analyticsData.html_version})</p>
+                                        <p className="text-muted small">(HTML Version : {analyticsData.html_version})</p>
                                     </Card.Header>
                                     <Card.Body>
                                         <Card>
                                             <Card.Title className="text-center">HTML Header Counts</Card.Title>
                                             <Card.Body>
-                                                <Table className="text-center" size="sm" striped bordered hover variant="light"
+                                                <Table className="text-center" size="sm" striped bordered hover
+                                                       variant="light"
                                                        responsive>
                                                     <thead>
                                                     <tr>
@@ -129,12 +135,14 @@ function App() {
                                                     </thead>
                                                     <tbody>
                                                     {analyticsData.links.map((l) => (
-                                                        <tr id={l.url}>
-                                                            <td><a target="_blank" rel="noreferrer" href={l.url}>{l.url}</a></td>
+                                                        <tr key={l.url}>
+                                                            <td><a target="_blank" rel="noreferrer" href={l.url}>{l.url}</a>
+                                                            </td>
                                                             <td>{(l.status < 300 && l.status >= 200) ?
                                                                 <p className="text-info">Working</p> :
                                                                 (<p className="text-danger">Issue loading the
-                                                                    content <br/>{`( Status Code : ${l.status} )`}</p>)}</td>
+                                                                    content <br/>{`( Status Code : ${l.status} )`}
+                                                                </p>)}</td>
                                                             <td>{l.is_internal_link ? "Internal link" : "external link"}</td>
                                                         </tr>
                                                     ))}
@@ -153,9 +161,10 @@ function App() {
                         justifyContent: 'center',
                         alignItems: 'center'
                     }}>
-                        {error ? <p className="text-danger text-center">Unable to process your request<br/>({`Error : ${error}`})</p> : isLoading ?
+                        {error ? <p className="text-danger text-center">Unable to process your
+                            request<br/>({`Error : ${error}`})</p> : isLoading ?
                             <Spinner animation="border" role="status">
-                            </Spinner>:
+                            </Spinner> :
                             <h4 className="text-center">Welcome to Web App Analyser</h4>}
                     </div>
                 }
